@@ -1,6 +1,6 @@
 // intbst.cpp
 // Implements class IntBST
-// YOUR NAME(S), DATE
+// David Aguirre
 
 #include "intbst.h"
 
@@ -9,27 +9,67 @@ using std::cout;
 
 // constructor sets up empty tree
 IntBST::IntBST() { 
-
+    root = nullptr;
 }
 
 // destructor deletes all nodes
 IntBST::~IntBST() {
-
+    clear(root);
 }
 
 // recursive helper for destructor
 void IntBST::clear(Node *n) {
-
+    if(n)
+    {
+        clear(n->left);
+        clear(n->right);
+        delete n;
+    }
 }
 
 // insert value in tree; return false if duplicate
 bool IntBST::insert(int value) {
-    return false; // REPLACE THIS NON-SOLUTION
+    if(!root)
+    {
+        root = new Node(value);
+        return true;
+    }
+    else
+    {
+        return insert(value,root);
+    }
 }
 
 // recursive helper for insert (assumes n is never 0)
 bool IntBST::insert(int value, Node *n) {
-    return false; // REPLACE THIS NON-SOLUTION
+    if(value==n->info)
+    {
+        return false;
+    }
+    if(value>n->info)
+    {
+        if(!n->right)
+        {
+            n->right = new Node(value);
+            return true;
+        }
+        else
+        {
+            return insert(value,n->right);
+        }
+    }
+    else
+    {
+        if(!n->left)
+        {
+            n->left = new Node(value);
+            return true;
+        }
+        else
+        {
+            return insert(value,n->left);
+        }
+    }
 }
 
 // print tree data pre-order
