@@ -1,0 +1,2 @@
+testbst.o: testbst.cpp
+    g++ -Wall -Werror -c testbest.cpp
