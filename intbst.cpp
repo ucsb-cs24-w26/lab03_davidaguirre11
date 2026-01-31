@@ -164,7 +164,31 @@ bool IntBST::contains(int value) const {
 
 // returns the Node containing the predecessor of the given value
 IntBST::Node* IntBST::getPredecessorNode(int value) const{
-    
+   Node* target = getNodeFor(value,root);
+   if(!target) return nullptr;
+   if(target->left){
+        Node* curr = target->left;
+        while(curr->right)
+        {
+            curr = curr->right;
+        }
+        return curr;
+   }
+
+   Node* predecessor = nullptr;
+   Node* ancestor = root;
+   while(ancestor != target)
+   {
+        if(value > ancestor->info)
+        {
+            predecessor = ancestor;
+            ancestor = ancestor->right;
+        }
+        else{
+            ancestor = ancestor->left;
+        }
+   }
+   return predecessor;
 }
 
 // returns the predecessor value of the given value or 0 if there is none
@@ -177,7 +201,29 @@ int IntBST::getPredecessor(int value) const{
 
 // returns the Node containing the successor of the given value
 IntBST::Node* IntBST::getSuccessorNode(int value) const{
-    return NULL; // REPLACE THIS NON-SOLUTION
+    Node* target = getNodeFor(value,root);
+    if(!target) return nullptr;
+
+    if(target->right)
+    {
+        Node* curr = target->right;
+        while(curr->left) curr = curr->left;
+        return curr;
+    }
+
+    Node* successor = nullptr;
+    Node* ancestor = root;
+    while(ancestor != target)
+    {
+        if(value < ancestor->info){
+            successor = ancestor;
+            ancestor = ancestor->left;
+        }
+        else{
+            ancestor =ancestor->right;
+        }
+    }
+    return successor;
 }
 
 // returns the successor value of the given value or 0 if there is none
@@ -190,6 +236,44 @@ int IntBST::getSuccessor(int value) const{
 
 // deletes the Node containing the given value from the tree
 // returns true if the node exist and was deleted or false if the node does not exist
+
 bool IntBST::remove(int value){
+    Node* parent = nullptr;
+    Node* curr = root;
     
+    while(curr && curr->info != value)
+    {
+        parent = curr;
+        if(value < curr->info) curr = curr->left;
+        else curr = curr->right;
+    }
+
+    if(!curr) return false;
+
+    if(curr->left && curr->right)
+    {
+        Node* successor = getSuccessorNode(value);
+        int successorVal = successor->info;
+
+        remove(successorVal);
+
+        curr->info = successorVal;
+        return true;
+    }
+
+    Node* replacement = (curr->left) ? curr->left : curr->right;
+
+    if(!parent)
+    {
+        root = replacement;
+    }
+    else if (parent->left == curr){
+        parent->left = replacement;
+    }
+    else{
+        parent->right = replacement;
+    }
+
+    delete curr;
+    return true;
 }
