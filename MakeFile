@@ -3,6 +3,10 @@ CPP = g++
 
 testbst.o: testbst.cpp
     $(CPP) $(FLAG) -c testbest.cpp
-	
+
 intbst.o: intbst.cpp
 	$(CPP) $(FLAG) -c intbst.cpp
+
+intbst: intbst.o testbst.o
+	$(CPP) $(FLAG) $^ -o $@
+
