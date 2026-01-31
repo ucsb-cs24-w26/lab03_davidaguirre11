@@ -81,7 +81,7 @@ void IntBST::printPreOrder() const {
 void IntBST::printPreOrder(Node *n) const {
     if(n)
     {
-        cout<< n->info + " ";
+        cout<< n->info << " ";
         printPreOrder(n->left);
         printPreOrder(n->right);
     }
@@ -94,7 +94,7 @@ void IntBST::printInOrder() const {
 void IntBST::printInOrder(Node *n) const {
     if(!n) return;
     printInOrder(n->left);
-    cout<<n->info + " ";
+    cout<<n->info << " ";
     printInOrder(n->right);    
 }
 
@@ -107,7 +107,7 @@ void IntBST::printPostOrder(Node *n) const {
     if(!n) return;
     printPostOrder(n->left);
     printPostOrder(n->right);
-    cout<< n->info + " ";
+    cout<< n->info << " ";
 }
 
 // return sum of values in tree
@@ -250,14 +250,26 @@ bool IntBST::remove(int value){
 
     if(!curr) return false;
 
-    if(curr->left && curr->right)
-    {
-        Node* successor = getSuccessorNode(value);
-        int successorVal = successor->info;
+    if (curr->left && curr->right) {
+        Node* succParent = curr;
+        Node* succ = curr->right;
 
-        remove(successorVal);
+        while (succ->left) {
+            succParent = succ;
+            succ = succ->left;
+        }
 
-        curr->info = successorVal;
+        curr->info = succ->info;
+
+        if (succParent->left == succ)
+        {
+            succParent->left = succ->right;
+        }
+        else
+        {
+            succParent->right = succ->right;
+        }
+        delete succ;
         return true;
     }
 
