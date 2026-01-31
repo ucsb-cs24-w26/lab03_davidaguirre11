@@ -1,12 +1,18 @@
 FLAG = -Wall -Werror
 CPP = g++
+CXX_FLAG = --std=c++11 -g
+
+all: testbst
+
+testbst: testbst.o intbst.o
+	g++ $(CXX_FLAG) -o testbst testbst.o intbst.o
 
 testbst.o: testbst.cpp
-    $(CPP) $(FLAG) -c testbest.cpp
+	g++ $(CXX_FLAG) testbst.cpp
 
 intbst.o: intbst.cpp
-	$(CPP) $(FLAG) -c intbst.cpp
+	g++ $(CXX_FLAG) intbst.cpp
 
-intbst: intbst.o testbst.o
-	$(CPP) $(FLAG) $^ -o $@
-
+clean:
+	rm -f testbst *.o
+	
