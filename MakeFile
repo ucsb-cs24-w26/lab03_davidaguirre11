@@ -1,2 +1,8 @@
+FLAG = -Wall -Werror
+CPP = g++
+
 testbst.o: testbst.cpp
-    g++ -Wall -Werror -c testbest.cpp
+    $(CPP) $(FLAG) -c testbest.cpp
+	
+intbst.o: intbst.cpp
+	$(CPP) $(FLAG) -c intbst.cpp
