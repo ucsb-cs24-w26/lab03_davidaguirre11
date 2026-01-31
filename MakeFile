@@ -15,4 +15,3 @@ intbst.o: intbst.cpp
 
 clean:
 	rm -f testbst *.o
-	
